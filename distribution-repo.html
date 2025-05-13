@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribution Repository - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="admin-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>Floodguard Admin</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Home</a></li>
+            <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="volunteers.html"><i class="fas fa-users"></i> Volunteers</a></li>
+            <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            <li><a href="donations.html"><i class="fas fa-donate"></i> Donations</a></li>
+            <li class="active"><a href="distribution-repo.html"><i class="fas fa-box-open"></i> Distribution Repo</a></li>
+            <li>
+                <div class="admin-profile">
+                    <img src="profile-user.png" alt="Admin Profile">
+                </div>
+            </li>
+            <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Distribution Repository</h1>
+            <div class="header-actions">
+            </div>
+        </div>
+        
+        <!-- Distribution Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Distribution History</h2>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Distribution ID</th>
+                        <th>Date</th>
+                        <th>Volunteer</th>
+                        <th>Victim</th>
+                        <th>Relief Type</th>
+                        <th>Location</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#DIS-2023-001</td>
+                        <td>2023-11-15</td>
+                        <td>Md. Rahman</td>
+                        <td>Ahmed Family</td>
+                        <td>Food Package</td>
+                        <td>Sylhet, Zindabazar</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>#DIS-2023-002</td>
+                        <td>2023-11-14</td>
+                        <td>Fatima Begum</td>
+                        <td>Hossain Household</td>
+                        <td>Water Bottles</td>
+                        <td>Sunamganj, Tahirpur</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>#DIS-2023-003</td>
+                        <td>2023-11-13</td>
+                        <td>Abdul Karim</td>
+                        <td>Miah Family</td>
+                        <td>Medicine Kit</td>
+                        <td>Kurigram, Chilmari</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>#DIS-2023-004</td>
+                        <td>2023-11-12</td>
+                        <td>Nusrat Jahan</td>
+                        <td>Single Mother (Rina)</td>
+                        <td>Clothing</td>
+                        <td>Netrokona, Khaliajuri</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>#DIS-2023-005</td>
+                        <td>2023-11-11</td>
+                        <td>Kamal Hossain</td>
+                        <td>Elderly Couple</td>
+                        <td>Shelter Kit</td>
+                        <td>Habiganj, Baniachong</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Only keep the necessary code for window click handling
+        window.addEventListener('click', (e) => {
+            if (e.target === addDistributionModal) {
+                addDistributionModal.style.display = 'none';
+            }
+            if (e.target === viewDistributionModal) {
+                viewDistributionModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

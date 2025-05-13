@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>Floodguard Admin</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Home</a></li>
+            <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="volunteers.html"><i class="fas fa-users"></i> Volunteers</a></li>
+            <li class="active"><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            <li><a href="donations.html"><i class="fas fa-donate"></i> Donations</a></li>
+            <li><a href="distribution-repo.html"><i class="fas fa-box-open"></i> Distribution Repo</a></li>
+            <li>
+                <div class="admin-profile">
+                    <img src="profile-user.png" alt="Admin Profile">
+                </div>
+            </li>
+            <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <main class="main-content">
+            <!-- Inventory Management Section -->
+            <section class="inventory-section">
+                <div class="section-header">
+                    <h2>Relief Inventory Management</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" onclick="openInventoryModal()"><i class="fas fa-plus"></i> Add Item</button>
+                        <button class="btn btn-secondary"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+                
+                <!-- Inventory Summary Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Items</h3>
+                            <p>1,842</p>
+                            <span class="stat-change up"><i class="fas fa-arrow-up"></i> 15% from last week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Available Items</h3>
+                            <p>1,250</p>
+                            <span class="stat-change up"><i class="fas fa-arrow-up"></i> 10% from last week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Expiring Soon</h3>
+                            <p>45</p>
+                            <span class="stat-change down"><i class="fas fa-arrow-down"></i> 5% from last week</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Item ID</th>
+                                <th>Relief Type</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Expiry Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>INV-5001</td>
+                                <td>Food</td>
+                                <td>250</td>
+                                <td>packs</td>
+                                <td>2023-12-15</td>
+                                <td><span class="badge good">Good</span></td>
+                                <td class="actions">
+                                    <button class="action-btn delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Additional inventory rows... -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Inventory Item Modal -->
+    <div id="inventoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Inventory Item</h3>
+                <span class="close-btn" onclick="closeInventoryModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="inventoryForm">
+                    <div class="form-group">
+                        <label for="itemName">Item Name</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="itemCategory">Relief Type</label>
+                            <select id="itemCategory" required>
+                                <option value="">Select Relief Type</option>
+                                <option value="food">Food</option>
+                                <option value="water">Water</option>
+                                <option value="medical">Medical</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="hygiene">Hygiene</option>
+                                <option value="shelter">Shelter</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemQuantity">Quantity</label>
+                            <input type="number" id="itemQuantity" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="itemUnit">Unit</label>
+                            <input type="text" id="itemUnit" placeholder="e.g., packs, bottles, kits" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemExpiry">Expiry Date</label>
+                            <input type="date" id="itemExpiry">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeInventoryModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveInventoryItem()">Save Item</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inventory Modal Functions
+        function openInventoryModal() {
+            document.getElementById('inventoryModal').style.display = 'block';
+        }
+
+        function closeInventoryModal() {
+            document.getElementById('inventoryModal').style.display = 'none';
+        }
+
+        function saveInventoryItem() {
+            // Save inventory item logic
+            alert('Inventory item saved successfully!');
+            closeInventoryModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('inventoryModal');
+            if (event.target == modal) {
+                closeInventoryModal();
+            }
+        }
+    </script>
+</body>
+</html>

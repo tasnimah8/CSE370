@@ -1,0 +1,21 @@
+[2025-05-13 01:00:50] [INFO] Starting donation submission process for user: USER-1747085071
+[2025-05-13 01:00:50] [INFO] Donation details - Type: medical, Amount: , Items: Napa, Quantity: 10
+[2025-05-13 01:00:50] [ERROR] Transaction failed: Unknown column 'quantity' in 'field list'
+[2025-05-13 01:00:50] [ERROR] Error in donation submission: Unknown column 'quantity' in 'field list'
+SQL Error: 
+Stack trace: #0 C:\xampp\htdocs\CSE370\donor-dashboard.php(79): mysqli->prepare('INSERT INTO don...')
+#1 {main}
+[2025-05-13 01:00:53] [INFO] Starting donation submission process for user: USER-1747085071
+[2025-05-13 01:00:53] [INFO] Donation details - Type: medical, Amount: , Items: Napa, Quantity: 10
+[2025-05-13 01:00:53] [ERROR] Transaction failed: Unknown column 'quantity' in 'field list'
+[2025-05-13 01:00:53] [ERROR] Error in donation submission: Unknown column 'quantity' in 'field list'
+SQL Error: 
+Stack trace: #0 C:\xampp\htdocs\CSE370\donor-dashboard.php(79): mysqli->prepare('INSERT INTO don...')
+#1 {main}
+[2025-05-13 01:01:29] [INFO] Starting donation submission process for user: USER-1747085071
+[2025-05-13 01:01:29] [INFO] Donation details - Type: medical, Amount: , Items: Napa, Quantity: 10
+[2025-05-13 01:01:29] [ERROR] Transaction failed: Unknown column 'quantity' in 'field list'
+[2025-05-13 01:01:29] [ERROR] Error in donation submission: Unknown column 'quantity' in 'field list'
+SQL Error: 
+Stack trace: #0 C:\xampp\htdocs\CSE370\donor-dashboard.php(79): mysqli->prepare('INSERT INTO don...')
+#1 {main}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contacts - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Hero Section Styles */
+        .emergency-hero {
+            background-color: #3E3F5B;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .emergency-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 300px;
+            transition: transform 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #8AB2A6;
+        }
+        
+        .contact-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .contact-card p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Table Section */
+        .volunteer-section {
+            padding: 0 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .volunteer-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #3E3F5B;
+            font-size: 2rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: #3E3F5B;
+            color: white;
+            font-weight: 500;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .badge.available {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+        
+        .badge.not-available {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <nav class="navbar glass">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                <h1>Floodguard Network</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#login-section">Login/Signup</a></li>
+                <li><a href="admin-dashboard.html">Admin Dashboard</a></li>
+                <li><a href="volunteer-dashboard.html">Volunteer Dashboard</a></li>
+                <li><a href="donor-dashboard.html">Donor Dashboard</a></li>
+                <li><a href="emergency-contact.html" class="active">Emergency Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Emergency Contacts Hero Section -->
+    <section class="emergency-hero">
+        <h1>Emergency Contacts</h1>
+        <div class="contact-cards">
+            <div class="contact-card glass">
+                <i class="fas fa-phone-alt"></i>
+                <h3>National Disaster Helpline</h3>
+                <p>Call: 1-800-DISASTER</p>
+                <p>Available 24/7</p>
+            </div>
+            <div class="contact-card glass">
+                <i class="fas fa-ambulance"></i>
+                <h3>Emergency Medical</h3>
+                <p>Call: 911 or 112</p>
+                <p>Immediate medical assistance</p>
+            </div>
+            <div class="contact-card glass">
+                <i class="fas fa-life-ring"></i>
+                <h3>Flood Rescue</h3>
+                <p>Call: 1-800-FLOODSV</p>
+                <p>Water rescue services</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Volunteer List Section -->
+    <section class="volunteer-section">
+        <h2>Available Volunteers</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Volunteer ID</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>VOL-1001</td>
+                        <td>John Smith</td>
+                        <td>+1 (555) 123-4567</td>
+                        <td>john.smith@example.com</td>
+                        <td>Downtown Area</td>
+                        <td><span class="badge available">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>VOL-1002</td>
+                        <td>Maria Garcia</td>
+                        <td>+1 (555) 234-5678</td>
+                        <td>maria.garcia@example.com</td>
+                        <td>Riverside</td>
+                        <td><span class="badge not-available">Not Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>VOL-1003</td>
+                        <td>David Kim</td>
+                        <td>+1 (555) 345-6789</td>
+                        <td>david.kim@example.com</td>
+                        <td>North District</td>
+                        <td><span class="badge available">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>VOL-1004</td>
+                        <td>Sarah Johnson</td>
+                        <td>+1 (555) 456-7890</td>
+                        <td>sarah.j@example.com</td>
+                        <td>Eastside</td>
+                        <td><span class="badge available">Available</span></td>
+                    </tr>
+                    <tr>
+                        <td>VOL-1005</td>
+                        <td>Michael Brown</td>
+                        <td>+1 (555) 567-8901</td>
+                        <td>michael.b@example.com</td>
+                        <td>West District</td>
+                        <td><span class="badge not-available">Not Available</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        // You can add JavaScript functionality here if needed
+        // For example, filtering the volunteer table or making status updates
+    </script>
+</body>
+</html>

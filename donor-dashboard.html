@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Additional styles for notifications */
+        .notification-container {
+            margin-top: 30px;
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .notification-header h2 {
+            margin: 0;
+        }
+        
+        .notification-badge {
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        
+        .notification-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid;
+        }
+        
+        .notification-item.approved {
+            border-left-color: #2ed573;
+        }
+        
+        .notification-item.rejected {
+            border-left-color: #ff4757;
+        }
+        
+        .notification-item.pending {
+            border-left-color: #ffa502;
+        }
+        
+        .notification-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .notification-title h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .notification-time {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        
+        .notification-message {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .receipt-details {
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .receipt-details.show {
+            display: block;
+        }
+        
+        .receipt-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .receipt-label {
+            font-weight: bold;
+            width: 150px;
+            color: #555;
+        }
+        
+        .receipt-value {
+            flex: 1;
+        }
+        
+        .toggle-receipt {
+            color: #3498db;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .toggle-receipt:hover {
+            text-decoration: underline;
+        }
+        
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-approved {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .status-pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body class="admin-container">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>HelpHub</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="donor-dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+            <a href="distribution-repo.html"><i class="fas fa-archive"></i> <span>Distribution Repo</span></a>
+            <div class="admin-profile">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Donor">
+                <div>
+                    <p>John Doe</p>
+                    <small>Donor</small>
+                </div>
+            </div>
+            <a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Donor Hero Section -->
+        <section class="volunteer-hero">
+            <div class="volunteer-profile">
+                <div class="profile-header">
+                    <div>
+                        <h2>John Doe</h2>
+                        <p class="volunteer-id">Donor ID: DON-2023-0042</p>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <span>Phone No</span>
+                            <strong>+1 (555) 123-4567</strong>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <span>Email</span>
+                            <strong>john.doe@email.com</strong>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div>
+                            <span>Total Donations</span>
+                            <strong>15 Contributions</strong>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>
+                            <span>Total Amount</span>
+                            <strong>$4,750</strong>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <span>Last Donation</span>
+                            <strong>Nov 15, 2023</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add New Donation Section -->
+        <section class="table-container">
+            <div class="form-header">
+                <h2><i class="fas fa-plus-circle"></i> Add New Donation</h2>
+            </div>
+            
+            <form id="donationForm" class="report-form compact">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="donationType">Donation Type *</label>
+                        <select id="donationType" required>
+                            <option value="">Select donation type</option>
+                            <option value="money">Money</option>
+                            <option value="food">Food</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="medicine">Medicine</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Amount/Quantity *</label>
+                        <input type="text" id="amount" placeholder="Amount or quantity" required>
+                    </div>
+                </div>
+                
+                <div class="form-row" id="transactionIdRow" style="display: none;">
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method *</label>
+                        <select id="paymentMethod">
+                            <option value="">Select payment method</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="mobile">Mobile Payment</option>
+                            <option value="credit">Credit Card</option>
+                            <option value="cash">Cash</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transactionId">Transaction ID *</label>
+                        <input type="text" id="transactionId" placeholder="Enter transaction ID">
+                    </div>
+                </div>
+                
+                <!-- Added expiry date row -->
+                <div class="form-row" id="expiryDateRow" style="display: none;">
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date *</label>
+                        <input type="date" id="expiryDate">
+                    </div>
+                </div>
+                
+                <div class="form-actions text-right">
+                    <button type="reset" class="btn btn-secondary">Clear Form</button>
+                    <button type="submit" class="btn btn-primary">Submit Donation</button>
+                </div>
+            </form>
+        </section>
+        
+        <!-- Notification Section -->
+        <section class="table-container notification-container">
+            <div class="notification-header">
+                <h2><i class="fas fa-bell"></i> Notifications</h2>
+            </div>
+            
+            <!-- Approved Donation Notification -->
+            <div class="notification-item approved">
+                <div class="notification-title">
+                    <div>
+                        <h3>Donation Approved <span class="status-badge status-approved">Approved</span></h3>
+                        <div class="notification-message">
+                            Your monetary donation of $500 has been approved by the admin.
+                        </div>
+                    </div>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+                <div class="toggle-receipt" onclick="toggleReceipt('receipt1')">View Receipt Details</div>
+                <div class="receipt-details" id="receipt1">
+                    <div class="receipt-row">
+                        <div class="receipt-label">Donation Type:</div>
+                        <div class="receipt-value">Money</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Amount:</div>
+                        <div class="receipt-value">$500.00</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Payment Method:</div>
+                        <div class="receipt-value">Bank Transfer</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Transaction ID:</div>
+                        <div class="receipt-value">TX-987654321</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Date:</div>
+                        <div class="receipt-value">November 20, 2023</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Approved By:</div>
+                        <div class="receipt-value">Admin Sarah Johnson</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Approval Date:</div>
+                        <div class="receipt-value">November 21, 2023</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rejected Donation Notification -->
+            <div class="notification-item rejected">
+                <div class="notification-title">
+                    <div>
+                        <h3>Donation Rejected <span class="status-badge status-rejected">Rejected</span></h3>
+                        <div class="notification-message">
+                            Your clothing donation has been rejected.
+                        </div>
+                    </div>
+                    <div class="notification-time">1 day ago</div>
+                </div>
+                <div class="toggle-receipt" onclick="toggleReceipt('receipt2')">View Details</div>
+                <div class="receipt-details" id="receipt2">
+                    <div class="receipt-row">
+                        <div class="receipt-label">Donation Type:</div>
+                        <div class="receipt-value">Clothing</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Quantity:</div>
+                        <div class="receipt-value">3 bags</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Date:</div>
+                        <div class="receipt-value">November 18, 2023</div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-label">Rejected By:</div>
+                        <div class="receipt-value">Admin Michael Brown</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Show/hide transaction ID based on donation type
+        document.getElementById('donationType').addEventListener('change', function() {
+            const transactionRow = document.getElementById('transactionIdRow');
+            const expiryDateRow = document.getElementById('expiryDateRow');
+            
+            // Handle transaction ID field for money donations
+            if (this.value === 'money') {
+                transactionRow.style.display = 'flex';
+                document.getElementById('transactionId').required = true;
+                document.getElementById('paymentMethod').required = true;
+                
+                // Hide expiry date for money donations
+                expiryDateRow.style.display = 'none';
+                document.getElementById('expiryDate').required = false;
+            } else {
+                transactionRow.style.display = 'none';
+                document.getElementById('transactionId').required = false;
+                document.getElementById('paymentMethod').required = false;
+                
+                // Show expiry date for non-money donations (if any donation type is selected)
+                if (this.value) {
+                    expiryDateRow.style.display = 'flex';
+                    document.getElementById('expiryDate').required = true;
+                } else {
+                    expiryDateRow.style.display = 'none';
+                    document.getElementById('expiryDate').required = false;
+                }
+            }
+        });
+
+        // Form submission
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Donation submitted successfully!');
+            this.reset();
+            document.getElementById('transactionIdRow').style.display = 'none';
+            document.getElementById('expiryDateRow').style.display = 'none';
+        });
+
+        // Logout functionality
+        document.querySelector('.logout-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to log out?')) {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Toggle receipt details
+        function toggleReceipt(id) {
+            const receipt = document.getElementById(id);
+            receipt.classList.toggle('show');
+            
+            // Change the toggle text
+            const toggleBtn = receipt.previousElementSibling;
+            if (receipt.classList.contains('show')) {
+                toggleBtn.textContent = 'Hide Details';
+            } else {
+                if (id === 'receipt1') {
+                    toggleBtn.textContent = 'View Receipt Details';
+                } else {
+                    toggleBtn.textContent = 'View Details';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+[2025-05-13 00:54:38] [INFO] Starting donation submission process for user: USER-1747085071
+[2025-05-13 00:54:38] [INFO] Donation details - Type: medical, Amount: , Items: Napa, Quantity: 10
+[2025-05-13 00:54:38] [ERROR] Transaction failed: Unknown column 'quantity' in 'field list'
+[2025-05-13 00:54:38] [ERROR] Error in donation submission: Unknown column 'quantity' in 'field list'
+SQL Error: 

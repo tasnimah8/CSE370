@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>HelpHub</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Home</a></li>
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="inventory.html"><i class="fas fa-calendar-alt"></i> Inventory</a></li>
+            <li><a href="victims.html"><i class="fas fa-chart-line"></i> Victims</a></li>
+            <li><a href="distribution-repo.html"><i class="fas fa-chart-line"></i> Distribution Repo</a></li>
+        </ul>
+        <div class="admin-profile">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Volunteer">
+            <div>
+                <p>John Doe</p>
+                <small>Volunteer</small>
+            </div>
+            <a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <main class="main-content">
+            <!-- Volunteer Hero Section -->
+            <section class="volunteer-hero glass">
+                <div class="volunteer-profile">
+                    <div class="profile-header">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Volunteer" class="profile-img">
+                        <div>
+                            <h2>John Doe</h2>
+                            <p class="volunteer-id">Volunteer ID: VOL-2023-0042</p>
+                            <!-- Repositioned availability toggle switch -->
+                            <div class="availability-toggle">
+                                <div class="toggle-container">
+                                    <span class="toggle-label">Availability:</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="availabilityToggle" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <span id="availabilityStatus" class="toggle-status available">Available</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <span>Phone No</span>
+                                <strong>+1 (555) 123-4567</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <span>Email</span>
+                                <strong>john.doe@email.com</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-tools"></i>
+                            <div>
+                                <span>Skill</span>
+                                <strong>Medical Assistance</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <div>
+                                <span>Total Helped</span>
+                                <strong>47 People</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clipboard-list"></i>
+                            <div>
+                                <span>Total Assigned Tasks</span>
+                                <strong>3 Tasks</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assigned Tasks Section -->
+            <section class="assigned-tasks">
+                <div class="section-header">
+                    <h2><i class="fas fa-tasks"></i> Assigned Tasks</h2>
+                </div>
+
+                <div class="tasks-container">
+                    <!-- Task Card - High Priority -->
+                    <div class="task-card high-priority">
+                        <div class="task-header">
+                            <h3>Medical Camp Support</h3>
+                            <span class="badge high">High Priority</span>
+                        </div>
+                        <div class="task-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>Saturday, June 10, 2023</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Central Park Medical Tent, New York</span>
+                            </div>
+                        </div>
+                        <div class="task-description">
+                            <p>Assist medical professionals with patient intake, basic first aid, and directing people to appropriate stations. Training will be provided on-site.</p>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-primary"><i class="fas fa-check"></i> Task Complete</button>
+                        </div>
+                    </div>
+
+                    <!-- Task Card - Medium Priority -->
+                    <div class="task-card medium-priority">
+                        <div class="task-header">
+                            <h3>Food Distribution</h3>
+                            <span class="badge medium">Medium Priority</span>
+                        </div>
+                        <div class="task-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>Sunday, June 11, 2023</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Community Center, Brooklyn</span>
+                            </div>
+                        </div>
+                        <div class="task-description">
+                            <p>Help distribute food packages to families in need. Includes loading/unloading supplies, organizing distribution lines, and assisting with paperwork.</p>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-primary"><i class="fas fa-check"></i> Task Complete</button>
+                        </div>
+                    </div>
+
+                    <!-- Task Card - Low Priority -->
+                    <div class="task-card low-priority">
+                        <div class="task-header">
+                            <h3>Shelter Organization</h3>
+                            <span class="badge low">Low Priority</span>
+                        </div>
+                        <div class="task-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>Wednesday, June 14, 2023</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Hope Shelter, Queens</span>
+                            </div>
+                        </div>
+                        <div class="task-description">
+                            <p>Organize donated clothing and supplies, help clean common areas, and assist with preparing sleeping areas for the evening.</p>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-primary"><i class="fas fa-check"></i> Task Complete</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modify the toggle switch CSS -->
+    <style>
+        .availability-toggle {
+            display: flex;
+            flex-direction: column;  /* Changed from row to column */
+            align-items: flex-start; /* Align items to the start instead of center */
+            margin-top: 10px;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .toggle-label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .toggle-status {
+            margin-top: 5px; /* Add margin at the top instead of left */
+            font-weight: 500;
+        }
+        
+        .toggle-status.available {
+            color: #2ed573;
+        }
+        
+        .toggle-status.unavailable {
+            color: #ff4757;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+        }
+        
+        input:checked + .slider {
+            background-color: #2ed573;
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2ed573;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 24px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+
+    <script>
+        // Availability toggle functionality
+        document.getElementById('availabilityToggle').addEventListener('change', function() {
+            const statusElement = document.getElementById('availabilityStatus');
+            
+            if (this.checked) {
+                statusElement.textContent = 'Available';
+                statusElement.className = 'toggle-status available';
+            } else {
+                statusElement.textContent = 'Not Available';
+                statusElement.className = 'toggle-status unavailable';
+            }
+            
+            // Here you would typically send an AJAX request to update the volunteer's availability status on the server
+        });
+    </script>
+</body>
+</html>

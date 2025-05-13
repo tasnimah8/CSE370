@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteers - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>Floodguard Admin</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Home</a></li>
+            <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li class="active"><a href="volunteers.html"><i class="fas fa-users"></i> Volunteers</a></li>
+            <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            <li><a href="donations.html"><i class="fas fa-donate"></i> Donations</a></li>
+            <li><a href="distribution-repo.html"><i class="fas fa-box-open"></i> Distribution Repo</a></li>
+            <li>
+                <div class="admin-profile">
+                    <img src="profile-user.png" alt="Admin Profile">
+                </div>
+            </li>
+            <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <main class="main-content">
+            <!-- Volunteers Management Section -->
+            <section class="volunteers-section">
+                <div class="section-header">
+                    <h2>Volunteer Management</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Volunteer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Availability</th>
+                                <th>Skills</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>VOL-1001</td>
+                                <td>John Smith</td>
+                                <td>john.smith@example.com</td>
+                                <td>+1 (555) 123-4567</td>
+                                <td><span class="badge available">Available</span></td>
+                                <td>First Aid, Logistics</td>
+                                <td>Downtown Area</td>
+                                <td class="actions">
+                                    <button class="action-btn chat-btn" title="Chat"><i class="fas fa-comment-dots"></i></button>
+                                    <button class="action-btn assign-btn" title="Assign Task" onclick="openTaskModal('John Smith')"><i class="fas fa-tasks"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VOL-1002</td>
+                                <td>Maria Garcia</td>
+                                <td>maria.garcia@example.com</td>
+                                <td>+1 (555) 234-5678</td>
+                                <td><span class="badge not-available">Not Available</span></td>
+                                <td>Medical, Translation</td>
+                                <td>Riverside</td>
+                                <td class="actions">
+                                    <button class="action-btn chat-btn" title="Chat"><i class="fas fa-comment-dots"></i></button>
+                                    <button class="action-btn assign-btn" title="Assign Task" onclick="openTaskModal('Maria Garcia')"><i class="fas fa-tasks"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VOL-1003</td>
+                                <td>David Kim</td>
+                                <td>david.kim@example.com</td>
+                                <td>+1 (555) 345-6789</td>
+                                <td><span class="badge available">Available</span></td>
+                                <td>Construction, Driving</td>
+                                <td>North District</td>
+                                <td class="actions">
+                                    <button class="action-btn chat-btn" title="Chat"><i class="fas fa-comment-dots"></i></button>
+                                    <button class="action-btn assign-btn" title="Assign Task" onclick="openTaskModal('David Kim')"><i class="fas fa-tasks"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Task Assignment Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Assign Task to Volunteer</h3>
+                <span class="close" onclick="closeTaskModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="volunteerName">Volunteer Name</label>
+                    <input type="text" id="volunteerName" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Task Description</label>
+                    <textarea id="taskDescription" placeholder="Enter task details"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskLocation">Location</label>
+                    <select id="taskLocation" onchange="loadVictimsByLocation()">
+                        <option value="">Select Location</option>
+                        <option value="downtown">Downtown Area</option>
+                        <option value="riverside">Riverside</option>
+                        <option value="north">North District</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="victimSelectionGroup" style="display: none;">
+                    <label for="victimSelection">Select Victim to Assist</label>
+                    <select id="victimSelection">
+                        <option value="">Select a location first</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="assignTask()">Assign Task</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTaskModal(volunteerName) {
+            document.getElementById('taskModal').style.display = 'block';
+            document.getElementById('volunteerName').value = volunteerName;
+            document.getElementById('victimSelectionGroup').style.display = 'none';
+        }
+
+        function closeTaskModal() {
+            document.getElementById('taskModal').style.display = 'none';
+            document.getElementById('taskDescription').value = '';
+            document.getElementById('taskLocation').value = '';
+            document.getElementById('victimSelectionGroup').style.display = 'none';
+        }
+
+        function loadVictimsByLocation() {
+            const location = document.getElementById('taskLocation').value;
+            const victimSelection = document.getElementById('victimSelection');
+            const victimSelectionGroup = document.getElementById('victimSelectionGroup');
+            
+            if (!location) {
+                victimSelectionGroup.style.display = 'none';
+                return;
+            }
+            
+            // Show the victim selection dropdown
+            victimSelectionGroup.style.display = 'block';
+            
+            // Clear previous options
+            victimSelection.innerHTML = '<option value="">Loading victims...</option>';
+            
+            // Simulated data - in a real app, this would be fetched from the server
+            const victimsByLocation = {
+                'downtown': [
+                    { name: 'John Doe', priority: 'High', needs: 'Food, Medicine' },
+                    { name: 'Sarah Smith', priority: 'Medium', needs: 'Water, Blankets' },
+                    { name: 'Michael Johnson', priority: 'Low', needs: 'Clothing' }
+                ],
+                'riverside': [
+                    { name: 'Emma Wilson', priority: 'High', needs: 'Medical Supplies' },
+                    { name: 'David Brown', priority: 'Medium', needs: 'Food, Water' }
+                ],
+                'north': [
+                    { name: 'Lisa Taylor', priority: 'High', needs: 'Shelter, Blankets' },
+                    { name: 'Robert Garcia', priority: 'Low', needs: 'Hygiene Kits' }
+                ]
+            };
+            
+            // Get victims for the selected location
+            const victims = victimsByLocation[location] || [];
+            
+            // Clear the dropdown
+            victimSelection.innerHTML = '';
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select a victim';
+            victimSelection.appendChild(defaultOption);
+            
+            // Add victims to dropdown
+            victims.forEach(victim => {
+                const option = document.createElement('option');
+                option.value = victim.name;
+                option.textContent = `${victim.name} - Priority: ${victim.priority} - Needs: ${victim.needs}`;
+                victimSelection.appendChild(option);
+            });
+            
+            // If no victims found
+            if (victims.length === 0) {
+                const noVictimsOption = document.createElement('option');
+                noVictimsOption.value = '';
+                noVictimsOption.textContent = 'No victims found in this location';
+                victimSelection.appendChild(noVictimsOption);
+            }
+        }
+
+        function assignTask() {
+            const volunteerName = document.getElementById('volunteerName').value;
+            const taskDescription = document.getElementById('taskDescription').value;
+            const location = document.getElementById('taskLocation').value;
+            const victimSelection = document.getElementById('victimSelection');
+            const victim = victimSelection.value;
+            
+            if (!taskDescription || !location || !victim) {
+                alert('Please complete all fields and select a victim before assigning the task.');
+                return;
+            }
+            
+            // In a real app, you would send this data to your backend
+            console.log('Assigning task:', {
+                volunteerName,
+                taskDescription,
+                location,
+                victim
+            });
+            
+            alert(`Task assigned to ${volunteerName} successfully!`);
+            closeTaskModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('taskModal');
+            if (event.target == modal) {
+                closeTaskModal();
+            }
+        }
+    </script>
+</body>
+</html>

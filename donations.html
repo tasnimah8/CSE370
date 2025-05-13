@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donations - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>Floodguard Admin</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html"> Home</a></li>
+            <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="volunteers.html"><i class="fas fa-users"></i> Volunteers</a></li>
+            <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            <li class="active"><a href="donations.html"><i class="fas fa-donate"></i> Donations</a></li>
+            <li><a href="distribution-repo.html"><i class="fas fa-box-open"></i> Distribution Repo</a></li>
+            <li>
+                <div class="admin-profile">
+                    <img src="profile-user.png" alt="Admin Profile">
+                </div>
+            </li>
+            <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <main class="main-content">
+            <!-- Donations Management Section -->
+            <section class="donations-section">
+                <div class="section-header">
+                    <h2>Donation Management</h2>
+                    <div class="section-actions">
+                        <label for="modal-toggle" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Record Donation
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tab-container">
+                    <input type="radio" id="tab1" name="tabs" class="tab-input" checked>
+                    <input type="radio" id="tab2" name="tabs" class="tab-input">
+                    <div class="tab-navigation">
+                        <label for="tab1" class="tab-btn">Pending Donations</label>
+                        <label for="tab2" class="tab-btn">Donation History</label>
+                    </div>
+
+                    <!-- Stats Grid remains the same -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-donate"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Donations</h3>
+                                <p>105</p>
+                                <span class="stat-change up"><i class="fas fa-arrow-up"></i> 18% from last month</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Approved</h3>
+                                <p>86</p>
+                                <span class="stat-change up"><i class="fas fa-arrow-up"></i> 12% from last month</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Pending</h3>
+                                <p>15</p>
+                                <span class="stat-change down"><i class="fas fa-arrow-down"></i> 5% from last month</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Rejected</h3>
+                                <p>4</p>
+                                <span class="stat-change neutral"><i class="fas fa-minus"></i> No change</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Donations Tab -->
+                    <div class="tab-content" id="pendingDonations">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Donation ID</th>
+                                        <th>Donor Name</th>
+                                        <th>Type</th>
+                                        <th>Amount/Items</th>
+                                        <th>Date Received</th>
+                                        <th>Payment Method</th>
+                                        <th>Transaction ID</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DON-7002</td>
+                                        <td>John Doe</td>
+                                        <td>Monetary</td>
+                                        <td>$1,000.00</td>
+                                        <td>2023-10-16</td>
+                                        <td>Credit Card</td>
+                                        <td>TXN-789012</td>
+                                        <td><span class="badge pending">Pending</span></td>
+                                        <td class="actions">
+                                            <form method="post" action="approve_donation.php" style="display: inline;">
+                                                <input type="hidden" name="donation_id" value="DON-7002">
+                                                <button type="submit" class="action-btn approve-btn" title="Approve">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                            <form method="post" action="reject_donation.php" style="display: inline;">
+                                                <input type="hidden" name="donation_id" value="DON-7002">
+                                                <button type="submit" class="action-btn reject-btn" title="Reject">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Donation History Tab -->
+                    <div class="tab-content" id="donationHistory">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Donation ID</th>
+                                        <th>Donor Name</th>
+                                        <th>Type</th>
+                                        <th>Amount/Items</th>
+                                        <th>Date Received</th>
+                                        <th>Payment Method</th>
+                                        <th>Transaction ID</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DON-7001</td>
+                                        <td>ABC Corporation</td>
+                                        <td>Monetary</td>
+                                        <td>$5,000.00</td>
+                                        <td>2023-10-15</td>
+                                        <td>Bank Transfer</td>
+                                        <td>TXN-123456</td>
+                                        <td><span class="badge approved">Approved</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Donation Modal -->
+    <input type="checkbox" id="modal-toggle" class="modal-toggle" hidden>
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Record New Donation</h3>
+                <label for="modal-toggle" class="close-btn">&times;</label>
+            </div>
+            <div class="modal-body">
+                <form action="record_donation.php" method="post">
+                    <div class="form-group">
+                        <label for="donorType">Donor Type</label>
+                        <select id="donorType" name="donorType" required>
+                            <option value="">Select Donor Type</option>
+                            <option value="individual">Individual</option>
+                            <option value="corporation">Corporation</option>
+                            <option value="organization">Organization</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="donorName">Donor Name</label>
+                        <input type="text" id="donorName" name="donorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationType">Donation Type</label>
+                        <select id="donationType" name="donationType" required>
+                            <option value="">Select Type</option>
+                            <option value="monetary">Monetary</option>
+                            <option value="food">Food Items</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="medical">Medical Supplies</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="donationAmount">Amount/Quantity</label>
+                            <input type="text" id="donationAmount" name="donationAmount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="donationUnit">Unit (if applicable)</label>
+                            <input type="text" id="donationUnit" name="donationUnit">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationDate">Date Received</label>
+                        <input type="date" id="donationDate" name="donationDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method (if monetary)</label>
+                        <select id="paymentMethod" name="paymentMethod">
+                            <option value="">Select Method</option>
+                            <option value="cash">Cash</option>
+                            <option value="check">Check</option>
+                            <option value="transfer">Bank Transfer</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="online">Online Payment</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionId">Transaction ID</label>
+                        <input type="text" id="transactionId" name="transactionId" placeholder="Enter transaction ID if applicable">
+                    </div>
+                    <div class="form-group">
+                        <label for="donationNotes">Notes</label>
+                        <textarea id="donationNotes" name="donationNotes" rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <label for="modal-toggle" class="btn btn-secondary">Cancel</label>
+                        <button type="submit" class="btn btn-primary">Save Donation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Modal CSS */
+        .modal-toggle:checked + .modal {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            width: 50%;
+            border-radius: 5px;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 1.5rem;
+            float: right;
+        }
+
+        /* Tab CSS */
+        .tab-container {
+            position: relative;
+        }
+
+        .tab-input {
+            display: none;
+        }
+
+        .tab-input:checked + .tab-content {
+            display: block;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        #tab1:checked ~ .tab-navigation label[for="tab1"],
+        #tab2:checked ~ .tab-navigation label[for="tab2"] {
+            border-bottom: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        #tab1:checked ~ #pendingDonations,
+        #tab2:checked ~ #donationHistory {
+            display: block;
+        }
+
+        .approve-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge.pending {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .badge.approved {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge.rejected {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</body>
+</html>

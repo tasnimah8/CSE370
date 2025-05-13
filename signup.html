@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Login/Signup Section */
+        .auth-section {
+            padding: 5rem 5%;
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .auth-form {
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-form h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .submit-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0 1rem;
+        }
+        
+        .btn-submit {
+            padding: 0.8rem 2rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px;
+            text-align: center;
+        }
+        
+        .btn-submit:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .toggle-auth {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .toggle-auth a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .toggle-auth a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <nav class="navbar glass">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                <h1>Floodguard Network</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="test.html">Login</a></li>
+                <li><a href="signup.html" class="active">Sign Up</a></li>
+                <li><a href="emergency-contact.html">Emergency Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Signup Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2>Sign Up</h2>
+                <form action="process_signup.php" method="POST">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-role">Role</label>
+                        <select id="signup-role" name="signup-role" required onchange="toggleLocationInput()">
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="volunteer">Volunteer</option>
+                            <option value="donor">Donor</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="location-group" style="display:none;">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">Password</label>
+                        <input type="password" id="new-password" name="new-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <div class="submit-container">
+                        <button type="submit" class="btn-submit">Sign Up</button>
+                    </div>
+                    <div class="toggle-auth">
+                        Already have an account? <a href="test.html">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleLocationInput() {
+            const roleSelect = document.getElementById('signup-role');
+            const locationGroup = document.getElementById('location-group');
+            locationGroup.style.display = roleSelect.value === 'volunteer' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

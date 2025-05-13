@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victim Management - Floodguard Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Additional styles for cleaner form */
+        .form-container {
+            max-width: 100%; /* Changed from 700px to 100% to utilize full width */
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .form-header {
+            text-align: left; /* Changed from center to left */
+            margin-bottom: 20px; /* Reduced margin */
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .form-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 0;
+            font-size: 1.2rem; /* Smaller font size */
+        }
+        
+        /* Added form grid layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three columns */
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px; /* Reduced margin */
+        }
+        
+        .form-group.full-width {
+            grid-column: span 3; /* Span all 3 columns */
+        }
+        
+        .form-group.double-width {
+            grid-column: span 2; /* Span 2 columns */
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px; /* Reduced margin */
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.9rem; /* Smaller font */
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px; /* Reduced padding */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 0.95rem; /* Smaller font */
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end; /* Changed from center to flex-end */
+            gap: 15px;
+            margin-top: 15px; /* Reduced margin */
+            grid-column: span 3; /* Span all columns */
+        }
+        
+        .needs-list {
+            margin-top: 2px; /* Reduced margin */
+            font-size: 0.8rem; /* Smaller font */
+            color: #666;
+        }
+        
+        /* Make textareas shorter */
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+            max-height: 120px;
+        }
+    </style>
+</head>
+
+<body class="admin-container">
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hands-helping"></i>
+            <h1>HelpHub</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="volunteer-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="inventory.html"><i class="fas fa-box-open"></i> Inventory</a></li>
+            <li class="active"><a href="victims.html"><i class="fas fa-user-injured"></i> Victims</a></li>
+            <li><a href="distribution-repo.html"><i class="fas fa-box-open"></i> Distribution Repo</a></li>
+            <li>
+                <div class="admin-profile">
+                    <img src="profile-user.png" alt="Admin Profile">
+                </div>
+            </li>
+            <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Victim Management</h1>
+        </div>
+        
+        <!-- Add New Victim Form -->
+        <div class="form-container">
+            <div class="form-header">
+                <h2><i class="fas fa-plus-circle"></i> Add New Victim</h2>
+            </div>
+            
+            <form id="victimForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="victimName">Full Name</label>
+                        <input type="text" id="victimName" placeholder="Enter victim's name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="familySize">Family Size</label>
+                        <input type="number" id="familySize" min="1" placeholder="Number of members">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber">Contact Number</label>
+                        <input type="tel" id="phoneNumber" placeholder="Phone number">
+                    </div>
+                    
+                    <!-- Reorganized these fields into one row -->
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="Enter location">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="priority">Priority Level</label>
+                        <select id="priority">
+                            <option value="">Select priority</option>
+                            <option value="high">High (Immediate)</option>
+                            <option value="medium">Medium (24hrs)</option>
+                            <option value="low">Low (Stable)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="needs">Needs</label>
+                        <input type="text" id="needs" placeholder="Food, Water, Shelter, Medical">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+                        <button type="submit" class="btn btn-primary">Save Victim</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Victims List Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2><i class="fas fa-list"></i> Registered Victims</h2>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Victim ID</th>
+                        <th>Name</th>
+                        <th>Family Size</th>
+                        <th>Location</th>
+                        <th>Priority</th>
+                        <th>Needs</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>VIC-2023-001</td>
+                        <td>Abdul Rahman</td>
+                        <td>5</td>
+                        <td>Sylhet, Zindabazar</td>
+                        <td><span class="badge high">High</span></td>
+                        <td>Food, Shelter, Medical</td>
+                        <td>01712XXXXXX</td>
+                    </tr>
+                    <tr>
+                        <td>VIC-2023-002</td>
+                        <td>Fatema Begum</td>
+                        <td>3</td>
+                        <td>Sunamganj, Tahirpur</td>
+                        <td><span class="badge medium">Medium</span></td>
+                        <td>Water, Clothing</td>
+                        <td>01915XXXXXX</td>
+                    </tr>
+                    <tr>
+                        <td>VIC-2023-003</td>
+                        <td>Mohammad Ali</td>
+                        <td>7</td>
+                        <td>Kurigram, Chilmari</td>
+                        <td><span class="badge high">High</span></td>
+                        <td>Food, Medical, Shelter</td>
+                        <td>01825XXXXXX</td>
+                    </tr>
+                    <tr>
+                        <td>VIC-2023-004</td>
+                        <td>Rina Akter</td>
+                        <td>2</td>
+                        <td>Netrokona, Khaliajuri</td>
+                        <td><span class="badge low">Low</span></td>
+                        <td>Clothing, Hygiene</td>
+                        <td>01678XXXXXX</td>
+                    </tr>
+                    <tr>
+                        <td>VIC-2023-005</td>
+                        <td>Kamal Hossain</td>
+                        <td>4</td>
+                        <td>Habiganj, Baniachong</td>
+                        <td><span class="badge medium">Medium</span></td>
+                        <td>Food, Water</td>
+                        <td>01789XXXXXX</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="table-footer">
+                <div class="table-summary">
+                    <p>Total victims: <strong>24</strong></p>
+                </div>
+                <div class="pagination">
+                    <button class="page-btn"><i class="fas fa-angle-double-left"></i></button>
+                    <button class="page-btn"><i class="fas fa-angle-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn"><i class="fas fa-angle-right"></i></button>
+                    <button class="page-btn"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission
+        document.getElementById('victimForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would normally submit the form data to the server
+            alert('Victim record saved successfully!');
+            this.reset();
+            
+            // In a real application, you would refresh the victims list or add the new victim to the table
+        });
+        
+        // Logout button
+        document.querySelector('.logout-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to log out?')) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

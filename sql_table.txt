@@ -1,0 +1,322 @@
+1. User Management Tables
+
+CREATE TABLE users (
+    user_id VARCHAR(20) PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- Store hashed password
+    phone VARCHAR(20) NOT NULL,
+    role ENUM('admin', 'volunteer', 'donor') NOT NULL,
+    profile_image VARCHAR(255),
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_login DATETIME,
+    status ENUM('active', 'inactive', 'suspended') DEFAULT 'active'
+);
+
+CREATE TABLE volunteer_profiles (
+    volunteer_id VARCHAR(20) PRIMARY KEY,
+    skill_type VARCHAR(100),
+    location VARCHAR(100),
+    is_available BOOLEAN DEFAULT TRUE,
+    people_helped INT DEFAULT 0,
+    address VARCHAR(255),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    zip_code VARCHAR(20),
+    emergency_contact_name VARCHAR(100),
+    emergency_contact_phone VARCHAR(20),
+    FOREIGN KEY (volunteer_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE donor_profiles (
+    donor_id VARCHAR(20) PRIMARY KEY,
+    donor_type ENUM('individual', 'corporation', 'organization'),
+    total_donations INT DEFAULT 0,
+    total_amount DECIMAL(12,2) DEFAULT 0.00,
+    last_donation_date DATE,
+    FOREIGN KEY (donor_id) REFERENCES users(user_id)
+);
+
+
+
+
+2. Relief Item Repository & Inventory Tables
+
+CREATE TABLE item_categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(50) NOT NULL,
+    description TEXT,
+    is_perishable BOOLEAN DEFAULT FALSE,
+    typical_shelf_life INT, -- Days (for perishable items)
+    low_stock_threshold INT DEFAULT 20 -- Threshold for low stock alerts
+);
+
+CREATE TABLE inventory_items (
+    item_id VARCHAR(20) PRIMARY KEY,
+    category_id INT,
+    item_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    quantity INT NOT NULL DEFAULT 0,
+    unit VARCHAR(20) NOT NULL, -- e.g., 'packs', 'kg', 'liters'
+    expiry_date DATE,
+    manufacturing_date DATE,
+    batch_number VARCHAR(50),
+    location VARCHAR(100), -- Storage location
+    purchase_date DATE,
+    purchase_price DECIMAL(10,2),
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status ENUM('available', 'reserved', 'expired', 'damaged') DEFAULT 'available',
+    FOREIGN KEY (category_id) REFERENCES item_categories(category_id)
+);
+
+CREATE TABLE inventory_transactions (
+    transaction_id VARCHAR(20) PRIMARY KEY,
+    item_id VARCHAR(20) NOT NULL,
+    transaction_type ENUM('in', 'out', 'adjust') NOT NULL,
+    quantity INT NOT NULL,
+    transaction_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    related_donation_id VARCHAR(20),
+    related_distribution_id VARCHAR(20),
+    notes TEXT,
+    performed_by VARCHAR(20) NOT NULL, -- user_id of person making transaction
+    FOREIGN KEY (item_id) REFERENCES inventory_items(item_id),
+    FOREIGN KEY (performed_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE inventory_alerts (
+    alert_id INT AUTO_INCREMENT PRIMARY KEY,
+    item_id VARCHAR(20) NOT NULL,
+    alert_type ENUM('low_stock', 'expiring_soon', 'expired') NOT NULL,
+    alert_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_resolved BOOLEAN DEFAULT FALSE,
+    resolved_date DATETIME,
+    resolved_by VARCHAR(20),
+    notes TEXT,
+    FOREIGN KEY (item_id) REFERENCES inventory_items(item_id),
+    FOREIGN KEY (resolved_by) REFERENCES users(user_id)
+);
+
+3. Victims & Relief Distribution Tables
+
+CREATE TABLE victims (
+    victim_id VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    family_size INT DEFAULT 1,
+    contact_number VARCHAR(20),
+    location VARCHAR(100) NOT NULL,
+    priority ENUM('high', 'medium', 'low') NOT NULL,
+    needs TEXT, -- Comma-separated needs
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    registered_by VARCHAR(20), -- user_id of staff who registered
+    status ENUM('pending', 'active', 'resolved') DEFAULT 'active',
+    FOREIGN KEY (registered_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE distributions (
+    distribution_id VARCHAR(20) PRIMARY KEY,
+    volunteer_id VARCHAR(20),
+    victim_id VARCHAR(20),
+    distribution_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    location VARCHAR(100) NOT NULL,
+    status ENUM('pending', 'in_progress', 'completed', 'cancelled') DEFAULT 'pending',
+    notes TEXT,
+    FOREIGN KEY (volunteer_id) REFERENCES users(user_id),
+    FOREIGN KEY (victim_id) REFERENCES victims(victim_id)
+);
+
+CREATE TABLE distribution_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    distribution_id VARCHAR(20) NOT NULL,
+    item_id VARCHAR(20) NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (distribution_id) REFERENCES distributions(distribution_id),
+    FOREIGN KEY (item_id) REFERENCES inventory_items(item_id)
+);
+
+CREATE TABLE distribution_receipts (
+    receipt_id VARCHAR(20) PRIMARY KEY,
+    distribution_id VARCHAR(20) NOT NULL,
+    receipt_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    received_by VARCHAR(100), -- Name of person receiving items
+    received_signature BLOB, -- Optional digital signature
+    received_photo BLOB, -- Optional photo evidence
+    verified_by VARCHAR(20), -- Volunteer who verified delivery
+    notes TEXT,
+    FOREIGN KEY (distribution_id) REFERENCES distributions(distribution_id),
+    FOREIGN KEY (verified_by) REFERENCES users(user_id)
+);
+
+4. Shelters & Safe Places Tables
+
+CREATE TABLE shelters (
+    shelter_id VARCHAR(20) PRIMARY KEY,
+    shelter_name VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    zip_code VARCHAR(20),
+    contact_number VARCHAR(20),
+    capacity INT NOT NULL,
+    current_occupancy INT DEFAULT 0,
+    facilities TEXT, -- Comma-separated facilities available
+    is_active BOOLEAN DEFAULT TRUE,
+    opening_date DATE,
+    closing_date DATE,
+    managed_by VARCHAR(20), -- user_id of manager
+    coordinates VARCHAR(50), -- GPS coordinates
+    FOREIGN KEY (managed_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE shelter_residents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    shelter_id VARCHAR(20) NOT NULL,
+    victim_id VARCHAR(20) NOT NULL,
+    check_in_date DATETIME NOT NULL,
+    check_out_date DATETIME,
+    status ENUM('checked_in', 'checked_out') DEFAULT 'checked_in',
+    special_needs TEXT,
+    FOREIGN KEY (shelter_id) REFERENCES shelters(shelter_id),
+    FOREIGN KEY (victim_id) REFERENCES victims(victim_id)
+);
+
+
+5. Donations & Donors Tables
+
+CREATE TABLE donations (
+    donation_id VARCHAR(20) PRIMARY KEY,
+    donor_id VARCHAR(20) NOT NULL,
+    donation_type ENUM('monetary', 'food', 'clothing', 'medicine', 'other') NOT NULL,
+    amount DECIMAL(12,2), -- For monetary donations
+    quantity INT, -- For non-monetary donations
+    unit VARCHAR(20), -- For non-monetary donations
+    donation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    payment_method VARCHAR(50), -- For monetary donations
+    transaction_id VARCHAR(100), -- For monetary donations
+    expiry_date DATE, -- For perishable donations
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    approved_by VARCHAR(20), -- user_id of approver
+    approved_date DATETIME,
+    notes TEXT,
+    FOREIGN KEY (donor_id) REFERENCES users(user_id),
+    FOREIGN KEY (approved_by) REFERENCES users(user_id)
+);
+
+6. Task Assignment Tables
+
+CREATE TABLE volunteer_tasks (
+    task_id INT AUTO_INCREMENT PRIMARY KEY,
+    volunteer_id VARCHAR(20),
+    victim_id VARCHAR(20),
+    task_name VARCHAR(100) NOT NULL,
+    task_description TEXT,
+    task_date DATE NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    priority ENUM('high', 'medium', 'low') NOT NULL,
+    status ENUM('assigned', 'in-progress', 'completed', 'cancelled') DEFAULT 'assigned',
+    assigned_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    assigned_by VARCHAR(20), -- user_id of admin who assigned
+    completed_date DATETIME,
+    FOREIGN KEY (volunteer_id) REFERENCES users(user_id),
+    FOREIGN KEY (victim_id) REFERENCES victims(victim_id),
+    FOREIGN KEY (assigned_by) REFERENCES users(user_id)
+);
+
+
+
+
+7. Reports & Analytics Tables
+
+CREATE TABLE daily_progress (
+    progress_id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATE NOT NULL,
+    families_served INT DEFAULT 0,
+    relief_packages_delivered INT DEFAULT 0,
+    locations_covered INT DEFAULT 0,
+    new_victims_registered INT DEFAULT 0,
+    new_volunteers_registered INT DEFAULT 0,
+    donations_received DECIMAL(12,2) DEFAULT 0.00,
+    item_types_distributed INT DEFAULT 0,
+    notes TEXT,
+    created_by VARCHAR(20),
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE monthly_reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    month INT NOT NULL,
+    year INT NOT NULL,
+    report_title VARCHAR(255) NOT NULL,
+    report_data JSON, -- Store detailed report data in JSON format
+    homes_reached INT DEFAULT 0,
+    meals_provided INT DEFAULT 0,
+    water_packs_distributed INT DEFAULT 0,
+    total_volunteers_active INT DEFAULT 0,
+    total_donations_received DECIMAL(12,2) DEFAULT 0.00,
+    target_percentage INT DEFAULT 0, -- e.g., 60% of monthly target achieved
+    report_generated_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    generated_by VARCHAR(20),
+    report_file VARCHAR(255), -- Path to PDF report if generated
+    FOREIGN KEY (generated_by) REFERENCES users(user_id),
+    UNIQUE KEY (month, year) -- Only one report per month
+);
+
+8. Communication Tables
+
+CREATE TABLE messages (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id VARCHAR(20) NOT NULL,
+    receiver_id VARCHAR(20) NOT NULL,
+    message_text TEXT NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE,
+    read_at DATETIME,
+    FOREIGN KEY (sender_id) REFERENCES users(user_id),
+    FOREIGN KEY (receiver_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(20) NOT NULL,
+    notification_type ENUM('task_assignment', 'donation_status', 'inventory_alert', 'message', 'system') NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL,
+    related_id VARCHAR(50), -- ID of related entity (task_id, donation_id, etc.)
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE,
+    read_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+9. System Settings and Configuration
+
+CREATE TABLE system_settings (
+    setting_id INT AUTO_INCREMENT PRIMARY KEY,
+    setting_name VARCHAR(100) NOT NULL UNIQUE,
+    setting_value TEXT,
+    setting_type ENUM('text', 'number', 'boolean', 'json') DEFAULT 'text',
+    description TEXT,
+    is_public BOOLEAN DEFAULT FALSE,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by VARCHAR(20),
+    FOREIGN KEY (updated_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE affected_locations (
+    location_id INT AUTO_INCREMENT PRIMARY KEY,
+    location_name VARCHAR(100) NOT NULL,
+    city VARCHAR(50),
+    state VARCHAR(50),
+    country VARCHAR(50) DEFAULT 'Bangladesh',
+    coordinates VARCHAR(50), -- GPS coordinates
+    severity ENUM('low', 'medium', 'high', 'severe') NOT NULL,
+    affected_population INT,
+    status ENUM('active', 'recovering', 'resolved') DEFAULT 'active',
+    start_date DATE NOT NULL,
+    end_date DATE,
+    notes TEXT
+);
+
+
+
