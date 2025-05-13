@@ -173,7 +173,7 @@ $conn->close();
             <section class="volunteer-hero glass">
                 <div class="volunteer-profile">
                     <div class="profile-header">
-                        <img src="<?php echo htmlspecialchars($volunteer_info['profile_image'] ?? 'https://randomuser.me/api/portraits/men/32.jpg'); ?>" alt="Volunteer" class="profile-img">
+                        <img src="<?php echo htmlspecialchars($volunteer_info['profile_image'] ?? 'support.png'); ?>" alt="Volunteer" class="profile-img">
                         <div>
                             <h2>
                                 <?php echo htmlspecialchars($volunteer_info['first_name'] . ' ' . $volunteer_info['last_name']); ?>
