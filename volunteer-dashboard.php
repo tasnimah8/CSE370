@@ -330,6 +330,29 @@ $conn->close();
         </div>
     </div>
 
+    <!-- Modern Floating Chat Button -->
+    <button class="floating-chat-btn" onclick="toggleChatModal()" id="chatButton">
+        <i class="fas fa-comments"></i> Chat
+        <span class="pulse-ring"></span>
+    </button>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="chat-modal">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>Messages with Admin</h3>
+                <button class="close-chat" onclick="toggleChatModal()">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be loaded here -->
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="messageInput" placeholder="Type a message...">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <style>
         .availability-toggle {
             display: flex;
@@ -520,6 +543,263 @@ $conn->close();
             color: white;
             margin-left: 10px;
         }
+
+        /* Chat Modal Styles */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            z-index: 1000;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fff;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.sent {
+            align-items: flex-end;
+        }
+
+        .message.received {
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.sent .message-bubble {
+            background: #3498db;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.received .message-bubble {
+            background: #f1f1f1;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.7em;
+            opacity: 0.7;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .message.sent .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .message.received .message-time {
+            color: #666;
+        }
+
+        .chat-input-container {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            background: white;
+        }
+        
+        .chat-input-container input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        .chat-input-container button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .chat-input-container button:hover {
+            background: #2980b9;
+        }
+
+        /* Modern Floating Chat Button */
+        .floating-chat-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .floating-chat-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .floating-chat-btn i {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .floating-chat-btn:hover i {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .floating-chat-btn .pulse-ring {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 10px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 50%;
+            border: 2px solid white;
+            display: none;
+        }
+
+        .floating-chat-btn.has-unread .pulse-ring {
+            display: block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+            }
+            70% {
+                transform: scale(1.2);
+                opacity: 0.7;
+                box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+            }
+        }
+
+        /* Add these styles in the existing style section */
+        .message-info {
+            font-size: 0.7em;
+            margin-top: 4px;
+            color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .message.sent .message-info {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .message-sender {
+            font-weight: bold;
+        }
+
+        .message-text {
+            margin-bottom: 4px;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            margin-bottom: 8px;
+        }
+
+        .message-meta {
+            font-size: 4px; /* Changed from 12px to 10px */
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            opacity: 0.8;
+        }
+
+        .message-sender {
+            font-size: 10px; /* Added explicit font size */
+            font-weight: 400; /* Reduced from 500 */
+        }
+
+        .message-time {
+            font-size: 9px; /* Made even smaller than sender name */
+            opacity: 0.7;
+        }
+
+        .message.sent .message-meta {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message.received .message-meta {
+            color: #666;
+        }
     </style>
 
     <script>
@@ -572,6 +852,112 @@ $conn->close();
                 closeEditModal();
             }
         }
+
+        // Chat functionality
+        function toggleChatModal() {
+            const modal = document.getElementById('chatModal');
+            if (modal.style.display === 'none' || !modal.style.display) {
+                modal.style.display = 'block';
+                loadMessages();
+                // Start auto-refresh when chat is opened
+                window.chatRefreshInterval = setInterval(loadMessages, 3000);
+                // Remove unread notification
+                document.getElementById('chatButton').classList.remove('has-unread');
+            } else {
+                modal.style.display = 'none';
+                // Clear auto-refresh when chat is closed
+                if (window.chatRefreshInterval) {
+                    clearInterval(window.chatRefreshInterval);
+                }
+            }
+        }
+
+        function loadMessages() {
+            fetch('get_messages.php')
+                .then(response => response.json())
+                .then(data => {
+                    const chatMessages = document.getElementById('chatMessages');
+                    if (!chatMessages) return;
+                    
+                    let html = '';
+                    data.forEach(message => {
+                        const isCurrentUser = message.sender_id === '<?php echo $_SESSION['user_id']; ?>';
+                        const name = isCurrentUser ? '<?php echo $volunteer_info['first_name']; ?>' : 'Irtiza Tasnimah';
+                        const date = new Date(message.sent_at);
+                        const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        const formattedDate = date.toLocaleDateString();
+                        
+                        html += `
+                            <div class="message ${isCurrentUser ? 'sent' : 'received'}">
+                                <div class="message-bubble">
+                                    <p class="message-text">${message.message}</p>
+                                    <div class="message-meta">
+                                        <span class="message-sender">Sent by ${name}</span>
+                                        <span class="message-time">${formattedDate} at ${formattedTime}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    chatMessages.innerHTML = html;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                })
+                .catch(error => console.error('Error loading messages:', error));
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            const formData = new FormData();
+            formData.append('message', message);
+
+            fetch('send_message.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    input.value = '';
+                    loadMessages();
+                } else {
+                    console.error('Error sending message:', data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Check for new messages periodically
+        setInterval(function() {
+            const chatModal = document.getElementById('chatModal');
+            if (chatModal.style.display === 'none' || !chatModal.style.display) {
+                fetch('get_messages.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const unreadCount = data.unread_count;
+                        const chatButton = document.getElementById('chatButton');
+                        if (unreadCount > 0) {
+                            chatButton.classList.add('has-unread');
+                        }
+                    });
+            }
+        }, 10000); // Check every 10 seconds
+
+        // Handle enter key in message input
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Load messages on page load to check for unread
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMessages();
+        });
     </script>
 </body>
 </html>
