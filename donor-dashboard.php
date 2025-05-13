@@ -428,7 +428,7 @@ $notifications = $stmt->get_result();
             <a href="donor-dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
             <a href="distribution-repo.php"><i class="fas fa-box-open"></i> <span>Distribution Repo</span></a>
             <div class="admin-profile">
-                <img src="<?php echo $donor_info['profile_image'] ? htmlspecialchars($donor_info['profile_image']) : 'https://randomuser.me/api/portraits/men/32.jpg'; ?>" alt="Donor">
+                <img src="<?php echo $donor_info['profile_image'] ? htmlspecialchars($donor_info['profile_image']) : 'support.png'; ?>" alt="Donor">
                 <div>
                     <p><?php echo htmlspecialchars($donor_info['first_name'] . ' ' . $donor_info['last_name']); ?></p>
                     <small>Donor</small>
