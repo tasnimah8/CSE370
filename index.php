@@ -1,3 +1,40 @@
+<?php
+// Database connection
+$conn = new mysqli('localhost', 'root', '', 'floodguard');
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+// Get today's statistics
+$today = date('Y-m-d');
+$today_stats = $conn->query("
+    SELECT 
+        COUNT(DISTINCT victim_id) as families_served,
+        SUM(quantity) as items_distributed,
+        COUNT(DISTINCT location) as locations_covered
+    FROM distribution_records 
+    WHERE DATE(distribution_date) = '$today'
+")->fetch_assoc();
+
+// Get monthly statistics
+$month_start = date('Y-m-01');
+$month_end = date('Y-m-t');
+$monthly_stats = $conn->query("
+    SELECT 
+        COUNT(DISTINCT victim_id) as families_helped,
+        SUM(quantity) as items_distributed
+    FROM distribution_records 
+    WHERE distribution_date BETWEEN '$month_start' AND '$month_end'
+")->fetch_assoc();
+
+// Calculate progress percentages
+$daily_target = 50; // Example: daily target of 100 families
+$monthly_target = 100; // Monthly target of 1000 families
+
+$daily_progress = min(100, ($today_stats['families_served'] / $daily_target) * 100);
+$monthly_progress = min(100, ($monthly_stats['families_helped'] / $monthly_target) * 100);
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,25 +155,25 @@
                 <div class="daily-progress glass">
                     <h3>Today's Relief Efforts</h3>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 75%;"></div>
+                        <div class="progress-fill" style="width: <?php echo $daily_progress; ?>%;"></div>
                     </div>
-                    <p>75% of today's relief packages distributed</p>
+                    <p><?php echo round($daily_progress); ?>% of today's relief packages distributed</p>
                     <ul class="progress-stats">
-                        <li><i class="fas fa-people-carry"></i> 1,250 families served</li>
-                        <li><i class="fas fa-box-open"></i> 5,800 relief packages delivered</li>
-                        <li><i class="fas fa-map-marker-alt"></i> 12 locations covered</li>
+                        <li><i class="fas fa-people-carry"></i> <?php echo number_format($today_stats['families_served']); ?> families served</li>
+                        <li><i class="fas fa-box-open"></i> <?php echo number_format($today_stats['items_distributed']); ?> relief items delivered</li>
+                        <li><i class="fas fa-map-marker-alt"></i> <?php echo number_format($today_stats['locations_covered']); ?> locations covered</li>
                     </ul>
                 </div>
                 <div class="monthly-progress glass">
                     <h3>Monthly Achievements</h3>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 60%;"></div>
+                        <div class="progress-fill" style="width: <?php echo $monthly_progress; ?>%;"></div>
                     </div>
-                    <p>60% of monthly target achieved</p>
+                    <p><?php echo round($monthly_progress); ?>% of monthly target achieved</p>
                     <ul class="progress-stats">
-                        <li><i class="fas fa-home"></i> 8,200 homes reached</li>
-                        <li><i class="fas fa-utensils"></i> 42,000 meals provided</li>
-                        <li><i class="fas fa-tint"></i> 15,000 water packs distributed</li>
+                        <li><i class="fas fa-home"></i> <?php echo number_format($monthly_stats['families_helped']); ?> of 1,000 families reached</li>
+                        <li><i class="fas fa-box"></i> <?php echo number_format($monthly_stats['items_distributed']); ?> items distributed</li>
+                        <li><i class="fas fa-calendar"></i> <?php echo date('F Y'); ?></li>
                     </ul>
                 </div>
             </div>
@@ -215,5 +252,21 @@
             setTimeout(showSlides, 5000); // Change image every 5 seconds
         }
     </script>
+    <style>
+        /* Add these styles for smoother progress bars */
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2ed573, #7bed9f);
+            height: 10px;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
 </body>
 </html>
